@@ -74,8 +74,6 @@ impl Game {
             self.board[old_y][old_x] = Cell::Empty;
         }
 
-        self.check_winner();
-
         if !self.is_over() {
             self.current_player = match self.current_player {
                 Player::X => Player::O,
@@ -122,6 +120,7 @@ fn main() {
     }
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
+
         if window.get_mouse_down(MouseButton::Left) {
             if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
                 let x = (mouse_x as usize) / CELL_SIZE;
@@ -129,6 +128,7 @@ fn main() {
 
                 if x < 3 && y < 3 {
                     game.make_move(x, y);
+                    game.check_winner();
                 }
             }
         }
