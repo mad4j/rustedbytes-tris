@@ -11,6 +11,20 @@ use draws::{clear_backgorund, draw_grid, draw_player_o, draw_player_x, draw_winn
 #[cfg(target_os = "windows")]
 static ICO_FILE: &[u8] = include_bytes!("../assets/app.ico");
 
+static LINES: [[(usize, usize); 3]; 8] = [
+    // Rows
+    [(0, 0), (1, 0), (2, 0)],
+    [(0, 1), (1, 1), (2, 1)],
+    [(0, 2), (1, 2), (2, 2)],
+    // Columns
+    [(0, 0), (0, 1), (0, 2)],
+    [(1, 0), (1, 1), (1, 2)],
+    [(2, 0), (2, 1), (2, 2)],
+    // Diagonals
+    [(0, 0), (1, 1), (2, 2)],
+    [(2, 0), (1, 1), (0, 2)],
+];
+
 #[derive(Clone, Copy, PartialEq)]
 enum Player {
     X,
@@ -71,21 +85,7 @@ impl Game {
     }
 
     fn check_winner(&mut self) {
-        let lines = [
-            // Rows
-            [(0, 0), (1, 0), (2, 0)],
-            [(0, 1), (1, 1), (2, 1)],
-            [(0, 2), (1, 2), (2, 2)],
-            // Columns
-            [(0, 0), (0, 1), (0, 2)],
-            [(1, 0), (1, 1), (1, 2)],
-            [(2, 0), (2, 1), (2, 2)],
-            // Diagonals
-            [(0, 0), (1, 1), (2, 2)],
-            [(2, 0), (1, 1), (0, 2)],
-        ];
-
-        for line in &lines {
+        for line in &LINES {
             if let [Cell::Occupied(p1), Cell::Occupied(p2), Cell::Occupied(p3)] = [
                 self.board[line[0].1][line[0].0],
                 self.board[line[1].1][line[1].0],
