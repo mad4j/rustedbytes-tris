@@ -1,10 +1,9 @@
-use raqote::{
-    AntialiasMode, BlendMode, DrawOptions, LineCap, LineJoin, SolidSource, StrokeStyle,
-};
+use raqote::{AntialiasMode, BlendMode, DrawOptions, LineCap, LineJoin, SolidSource, StrokeStyle};
 
 pub const CELL_SIZE: usize = 100;
-pub const WIDTH: usize = CELL_SIZE * 3;
-pub const HEIGHT: usize = CELL_SIZE * 3;
+pub const CELL_PADDING: usize = (0.15 * CELL_SIZE as f32) as usize;
+pub const WIDTH: usize = 3 * CELL_SIZE + 2 * CELL_PADDING;
+pub const HEIGHT: usize = 3 * CELL_SIZE + 2 * CELL_PADDING;
 
 pub const LINE_STROKE_STYLE: StrokeStyle = StrokeStyle {
     width: CELL_SIZE as f32 / 20.0,
@@ -24,14 +23,11 @@ pub const SYMBOL_STROKE_STYLE: StrokeStyle = StrokeStyle {
     dash_offset: 0.0,
 };
 
-
-
 pub const DRAW_OPTIONS: DrawOptions = DrawOptions {
     antialias: AntialiasMode::Gray,
     blend_mode: BlendMode::Src,
     alpha: 1.0,
 };
-
 
 pub const COLOR_WHITE: SolidSource = SolidSource {
     r: 0xEF,
@@ -41,10 +37,10 @@ pub const COLOR_WHITE: SolidSource = SolidSource {
 };
 
 pub const COLOR_GREEN: SolidSource = SolidSource {
-    r: 27,
-    g: 153,
-    b: 139,
-    a: 255,
+    r: 0xE5,
+    g: 0xE8,
+    b: 0xB6,
+    a: 0xFF,
 };
 
 pub const COLOR_RED: SolidSource = SolidSource {
@@ -54,11 +50,11 @@ pub const COLOR_RED: SolidSource = SolidSource {
     a: 0xFF,
 };
 
-pub const COLOR_BLUE: SolidSource = SolidSource {
-    r: 45,
-    g: 48,
-    b: 71,
-    a: 255,
+pub const COLOR_GRAY: SolidSource = SolidSource {
+    r: 0x4F,
+    g: 0x5D,
+    b: 0x75,
+    a: 0xFF,
 };
 
 pub const COLOR_ORANGE: SolidSource = SolidSource {

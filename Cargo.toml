@@ -7,3 +7,9 @@ edition = "2024"
 minifb = "0.28.0"
 rand = "0.9.1"
 raqote = "0.8.5"
+
+[target.'cfg(windows)'.dependencies]
+temp-file = "0.1.9"
+
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1.12"
