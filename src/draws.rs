@@ -1,5 +1,3 @@
-use std::usize;
-
 use raqote::{DrawTarget, PathBuilder, Source};
 
 use crate::consts;
@@ -117,4 +115,8 @@ pub fn draw_winning_line(draw_target: &mut DrawTarget, line: &[(usize, usize); 3
         &consts::LINE_STROKE_STYLE,
         &consts::DRAW_OPTIONS,
     );
+}
+
+pub fn clear_backgorund(draw_target: &mut DrawTarget) {
+    draw_target.clear(consts::COLOR_WHITE);
 }

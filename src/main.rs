@@ -1,12 +1,12 @@
-use std::str::FromStr;
-
-use minifb::{Icon, Key, MouseButton, MouseMode, Window, WindowOptions};
-use raqote::DrawTarget;
-
 mod consts;
 mod draws;
 
-use draws::{draw_grid, draw_player_o, draw_player_x, draw_winning_line};
+use minifb::{Icon, Key, MouseButton, MouseMode, Window, WindowOptions};
+use raqote::DrawTarget;
+use std::str::FromStr;
+
+use consts::{CELL_SIZE, HEIGHT, WIDTH};
+use draws::{clear_backgorund, draw_grid, draw_player_o, draw_player_x, draw_winning_line};
 
 #[cfg(target_os = "windows")]
 static ICO_FILE: &[u8] = include_bytes!("../assets/app.ico");
@@ -92,8 +92,8 @@ impl Game {
                 self.board[line[2].1][line[2].0],
             ] {
                 if p1 == p2 && p2 == p3 {
-                    self.winning_line = Some(line.clone());
-                    return
+                    self.winning_line = Some(*line);
+                    return;
                 }
             }
         }
@@ -107,17 +107,12 @@ impl Game {
 }
 
 fn main() {
-    let mut window = Window::new(
-        "Vanishing Tris",
-        consts::WIDTH,
-        consts::HEIGHT,
-        WindowOptions::default(),
-    )
-    .unwrap_or_else(|e| {
-        panic!("{}", e);
-    });
+    let mut window = Window::new("Vanishing Tris", WIDTH, HEIGHT, WindowOptions::default())
+        .unwrap_or_else(|e| {
+            panic!("{}", e);
+        });
 
-    let mut draw_target = DrawTarget::new(consts::WIDTH as i32, consts::HEIGHT as i32);
+    let mut draw_target = DrawTarget::new(WIDTH as i32, HEIGHT as i32);
     let mut game = Game::new();
 
     #[cfg(target_os = "windows")]
@@ -129,8 +124,8 @@ fn main() {
     while window.is_open() && !window.is_key_down(Key::Escape) {
         if window.get_mouse_down(MouseButton::Left) {
             if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
-                let x = (mouse_x as usize) / consts::CELL_SIZE;
-                let y = (mouse_y as usize) / consts::CELL_SIZE;
+                let x = (mouse_x as usize) / CELL_SIZE;
+                let y = (mouse_y as usize) / CELL_SIZE;
 
                 if x < 3 && y < 3 {
                     game.make_move(x, y);
@@ -143,7 +138,7 @@ fn main() {
         }
 
         // Clear the draw target
-        draw_target.clear(consts::COLOR_WHITE);
+        clear_backgorund(&mut draw_target);
 
         // Draw grid
         draw_grid(&mut draw_target);
@@ -166,36 +161,11 @@ fn main() {
         }
 
         if game.is_over() {
-            let winning_lines = [
-                // Rows
-                [(0, 0), (1, 0), (2, 0)],
-                [(0, 1), (1, 1), (2, 1)],
-                [(0, 2), (1, 2), (2, 2)],
-                // Columns
-                [(0, 0), (0, 1), (0, 2)],
-                [(1, 0), (1, 1), (1, 2)],
-                [(2, 0), (2, 1), (2, 2)],
-                // Diagonals
-                [(0, 0), (1, 1), (2, 2)],
-                [(2, 0), (1, 1), (0, 2)],
-            ];
-
-            for line in &winning_lines {
-                if let [Cell::Occupied(p1), Cell::Occupied(p2), Cell::Occupied(p3)] = [
-                    game.board[line[0].1][line[0].0],
-                    game.board[line[1].1][line[1].0],
-                    game.board[line[2].1][line[2].0],
-                ] {
-                    if p1 == p2 && p2 == p3 {
-                        draw_winning_line(&mut draw_target, line);
-                        break;
-                    }
-                }
-            }
+            draw_winning_line(&mut draw_target, &game.winning_line.unwrap());
         }
 
         window
-            .update_with_buffer(draw_target.get_data(), consts::WIDTH, consts::HEIGHT)
+            .update_with_buffer(draw_target.get_data(), WIDTH, HEIGHT)
             .unwrap();
     }
 }
