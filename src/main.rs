@@ -26,18 +26,19 @@ static LINES: [[(usize, usize); 3]; 8] = [
     [(2, 0), (1, 1), (0, 2)],
 ];
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 enum Player {
     X,
     O,
 }
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 enum Cell {
     Empty,
     Occupied(Player),
 }
 
+#[derive(Debug, Clone)]
 struct Game {
     board: [[Cell; 3]; 3],
     current_player: Player,
@@ -56,31 +57,47 @@ impl Game {
     }
 
     fn reset(&mut self) {
+
+        // Reset the game state
         self.board = [[Cell::Empty; 3]; 3];
-        self.current_player = Player::X;
         self.moves.clear();
         self.winning_line = None;
+        // leave the current player as is
     }
 
     fn make_move(&mut self, x: usize, y: usize) {
+
+        // Check if the game is over or the cell is already occupied
         if self.is_over() || self.board[y][x] != Cell::Empty {
             return;
         }
 
+        // Place the current player's symbol on the board
         self.board[y][x] = Cell::Occupied(self.current_player);
         self.moves.push((x, y));
 
+        // Remove the oldest move if there are more than 6 moves
         if self.moves.len() > 6 {
             let (old_x, old_y) = self.moves.remove(0);
             self.board[old_y][old_x] = Cell::Empty;
         }
 
+        // Check for a winner
+        self.check_winner();
+
+        // Switch players if the game is not over
         if !self.is_over() {
-            self.current_player = match self.current_player {
-                Player::X => Player::O,
-                Player::O => Player::X,
-            };
+            self.switch_player();
         }
+
+        println!("Current player: {:?}", self.current_player);
+    }
+
+    fn switch_player(&mut self) {
+        self.current_player = match self.current_player {
+            Player::X => Player::O,
+            Player::O => Player::X,
+        };
     }
 
     fn check_winner(&mut self) {
@@ -107,6 +124,35 @@ impl Game {
 
 fn get_next_move(game: &Game) -> Option<(usize, usize)> {
     let mut rng = rand::rng();
+
+    // Check if any move leads to a win
+    for y in 0..3 {
+        for x in 0..3 {
+            if game.board[y][x] == Cell::Empty {
+                let mut simulated_game = game.clone();
+                simulated_game.make_move(x, y);
+                if simulated_game.is_over() {
+                    return Some((x, y));
+                }
+            }
+        }
+    }
+
+    // Check if any move prevents the opponent from winning
+    for y in 0..3 {
+        for x in 0..3 {
+            if game.board[y][x] == Cell::Empty {
+                let mut simulated_game = game.clone();
+                simulated_game.switch_player();
+                simulated_game.make_move(x, y);
+                if simulated_game.is_over() {
+                    return Some((x, y));
+                }
+            }
+        }
+    }
+
+    // Otherwise, pick a random move
     (0..3)
         .flat_map(|y| (0..3).map(move |x| (x, y)))
         .filter(|&(x, y)| game.board[y][x] == Cell::Empty)
@@ -133,7 +179,6 @@ fn main() {
             std::thread::sleep(std::time::Duration::from_millis(100));
             if let Some((x, y)) = get_next_move(&game) {
                 game.make_move(x, y);
-                game.check_winner();
             }
         } else if window.get_mouse_down(MouseButton::Left) {
             if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
@@ -142,7 +187,6 @@ fn main() {
 
                 if x < 3 && y < 3 {
                     game.make_move(x, y);
-                    game.check_winner();
                 }
             }
         }
