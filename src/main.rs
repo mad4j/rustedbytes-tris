@@ -35,7 +35,7 @@ fn main() {
     
     // Create a new window with the specified title, width, height, and options
     let mut window = Window::new(
-        &format!("Vanishing Tris - v{}", env!("CARGO_PKG_VERSION")),
+        &format!("Vanishing Tic-Tac-Toe - v{}", env!("CARGO_PKG_VERSION")),
         WIDTH,
         HEIGHT,
         WindowOptions::default(),

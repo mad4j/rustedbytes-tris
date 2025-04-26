@@ -55,6 +55,36 @@ The logic implemented in the **`ai.rs`** module follows a straightforward but ef
 
 This logic is intentionally simple to implement and strikes a balance between competence and fallibility. It’s sophisticated enough to challenge the player but not perfect, ensuring that the gameplay remains engaging and fair.
 
+## Incremental organization
+
+This project is well-suited for incremental development across multiple lessons, making it an excellent teaching tool for both Rust programming and game development. It can begin with a foundational structure—setting up the project layout, defining constants, and organizing modules like `game.rs` and `main.rs`. This first step introduces students to modular design and the Rust build system.
+
+In subsequent lessons, the graphics layer can be added using `minifb` and `raqote`, allowing students to visualize the game state and interact with a basic UI. The game can initially support a simple two-player mode, focusing on implementing the rules and turn-based mechanics of Vanishing Tic-Tac-Toe. Once the core gameplay is stable, the AI module can be introduced with a purely random move generator, demonstrating how decision-making can be automated.
+
+Further lessons can evolve the AI with smarter behavior, as described in the `ai.rs` logic, and polish the overall experience with features like win detection, animations, or platform-specific enhancements. This step-by-step approach allows learners to see tangible progress while reinforcing key programming concepts at each stage.
+
+## Where to start
+
+### Project Repository
+
+Project repository is available on GitHub at the following link: <https:/>/github.com/mad4j/rustedbytes-tris>
+
+### Cargo install
+
+With an installed functional Rust toolchain, it is possibile to download and compile the binary project with the following command:
+
+`cargo install rustedbytes-tris`
+
+This will install `rustedbytes-tris` on your path.
+
+### Game commands
+
+Use the following commands to play Vanishing Tic-Tac-Toe:
+
+- `Left` mouse button to select where to put your sign on the grid
+- `Right` mouse button or `Space` key to reset the game board
+- `Esc` key to close the application
+
 ## Conclusion
 
 In conclusion, this project demonstrates how a classic game like Tic-Tac-Toe can be reimagined with simple yet impactful rule changes, such as the vanishing mechanic, to create a fresh and engaging experience. Built using Rust and structured in a clean, modular way, the project showcases how powerful yet accessible the language can be for both gameplay logic and graphical rendering. The AI, while not unbeatable, adds strategic depth and keeps the game enjoyable. Overall, the project is a great example of how to combine creativity, thoughtful design, and modern tooling to build an educational and entertaining application.
