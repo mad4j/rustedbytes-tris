@@ -62,7 +62,7 @@ impl Game {
         self.board = [[Cell::Empty; 3]; 3];
         self.moves.clear();
         self.winning_line = None;
-        // leave the current player as is
+        self.current_player = Player::X;
     }
 
     fn make_move(&mut self, x: usize, y: usize) {
@@ -89,8 +89,6 @@ impl Game {
         if !self.is_over() {
             self.switch_player();
         }
-
-        println!("Current player: {:?}", self.current_player);
     }
 
     fn switch_player(&mut self) {
@@ -175,18 +173,21 @@ fn main() {
     }
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
-        if game.current_player == Player::O && !game.is_over() {
-            std::thread::sleep(std::time::Duration::from_millis(100));
-            if let Some((x, y)) = get_next_move(&game) {
-                game.make_move(x, y);
-            }
-        } else if window.get_mouse_down(MouseButton::Left) {
-            if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
-                let x = (mouse_x as usize) / CELL_SIZE;
-                let y = (mouse_y as usize) / CELL_SIZE;
 
-                if x < 3 && y < 3 {
+        if !game.is_over() {
+            if game.current_player == Player::O {
+                std::thread::sleep(std::time::Duration::from_millis(100));
+                if let Some((x, y)) = get_next_move(&game) {
                     game.make_move(x, y);
+                }
+            } else if window.get_mouse_down(MouseButton::Left) {
+                if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
+                    let x = (mouse_x as usize) / CELL_SIZE;
+                    let y = (mouse_y as usize) / CELL_SIZE;
+
+                    if x < 3 && y < 3 {
+                        game.make_move(x, y);
+                    }
                 }
             }
         }
@@ -218,10 +219,12 @@ fn main() {
             }
         }
 
+        // Draw winning line if the game is over
         if game.is_over() {
             draw_winning_line(&mut draw_target, &game.winning_line.unwrap());
         }
 
+        // Update the window with the draw target
         window
             .update_with_buffer(draw_target.get_data(), WIDTH, HEIGHT)
             .unwrap();
