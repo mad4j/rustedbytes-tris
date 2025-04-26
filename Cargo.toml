@@ -1,6 +1,6 @@
 [package]
 name = "rustedbytes-tris"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["Daniele Olmisani <daniele.olmisani@gmail.com>"]
 description = "A Vanishing Tic Tac Toe clone written in Rust."
@@ -10,6 +10,7 @@ homepage = "https://github.com/mad4j/rustedbytes-tris"
 keywords = ["tic-tac-toe", "game", "rust", "clone", "graphics"]
 categories = ["games", "graphics"]
 readme = "README.md"
+exclude = ["/assets"]
 
 [dependencies]
 minifb = "0.28.0"
