@@ -1,5 +1,7 @@
 # Teaching with Rust: Building Strong Foundations for Real-World Developers
 
+![alt text](assets/cover.png)
+
 ## Rust vs. Python
 
 Rust is a strong alternative to Python in programming education, offering students a deeper understanding of systems-level concepts like memory management and concurrency. Its strict compiler and clear error messages help form disciplined coding habits early on.
@@ -67,7 +69,7 @@ Further lessons can evolve the AI with smarter behavior, as described in the `ai
 
 ### Project Repository
 
-Project repository is available on GitHub at the following link: https://github.com/mad4j/rustedbytes-tris
+Project repository is available on GitHub at the following link: [https://github.com/mad4j/rustedbytes-tris](https://github.com/mad4j/rustedbytes-tris)
 
 ### Cargo install
 
