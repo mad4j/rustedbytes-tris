@@ -1,3 +1,12 @@
+/*!
+ * Vanishing Tris implementation
+ * A simple Tic-Tac-Toe game with a twist: the symbols vanishes after the third move.
+ * The game is played on a 3x3 grid, and the first player to align three symbols wins.
+ * The game also includes an AI opponent that plays as Player O.
+ * The game is implemented using the `minifb` library for window management and `raqote` for drawing.
+ * The game can be reset by pressing the space bar or right-clicking the mouse.
+ */
+
 mod ai;
 mod consts;
 mod draws;
@@ -11,9 +20,17 @@ use consts::{CELL_SIZE, HEIGHT, WIDTH};
 use draws::{clear_background, draw_grid, draw_player_o, draw_player_x, draw_winning_line};
 use game::{Cell, Game, Player};
 
+
+// The icon file is included as a byte array for Windows
 #[cfg(target_os = "windows")]
 static ICO_FILE: &[u8] = include_bytes!("../assets/app.ico");
 
+
+// The main function initializes the game window, sets up the game logic, and handles user input.
+// It also manages the game loop, updating the display and checking for game state changes.
+// The game loop continues until the window is closed or the escape key is pressed.
+// The game can be reset by pressing the space bar or right-clicking the mouse.
+// The AI opponent makes a move if it's Player O's turn, and the player can make a move by clicking on the grid.
 fn main() {
     // Set up the window
     let mut window = Window::new("Vanishing Tris", WIDTH, HEIGHT, WindowOptions::default())
@@ -37,12 +54,16 @@ fn main() {
 
     // Game main loop
     while window.is_open() && !window.is_key_down(Key::Escape) {
+
+        // check for player moves only if the game is not over
         if !game.is_over() {
+            // If it's Player O's turn, let the AI make a move
             if game.get_current_player() == Player::O {
                 std::thread::sleep(std::time::Duration::from_millis(100));
                 if let Some((x, y)) = ai::get_next_move(&game) {
                     game.make_move(x, y);
                 }
+            // Otherwise, check for mouse input
             } else if window.get_mouse_down(MouseButton::Left) {
                 if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
                     let x = (mouse_x as usize) / CELL_SIZE;
@@ -55,6 +76,7 @@ fn main() {
             }
         }
 
+        // Check for game reset request
         if window.is_key_down(Key::Space) || window.get_mouse_down(MouseButton::Right) {
             game.reset();
         }
