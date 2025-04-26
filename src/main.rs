@@ -32,11 +32,17 @@ static ICO_FILE: &[u8] = include_bytes!("../assets/app.ico");
 // The game can be reset by pressing the space bar or right-clicking the mouse.
 // The AI opponent makes a move if it's Player O's turn, and the player can make a move by clicking on the grid.
 fn main() {
-    // Set up the window
-    let mut window = Window::new("Vanishing Tris", WIDTH, HEIGHT, WindowOptions::default())
-        .unwrap_or_else(|e| {
-            panic!("{}", e);
-        });
+    
+    // Create a new window with the specified title, width, height, and options
+    let mut window = Window::new(
+        &format!("Vanishing Tris - v{}", env!("CARGO_PKG_VERSION")),
+        WIDTH,
+        HEIGHT,
+        WindowOptions::default(),
+    )
+    .unwrap_or_else(|e| {
+        panic!("{}", e);
+    });
 
     // Set the window icon
     #[cfg(target_os = "windows")]
