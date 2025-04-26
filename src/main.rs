@@ -6,7 +6,8 @@ use raqote::DrawTarget;
 use std::str::FromStr;
 
 use consts::{CELL_SIZE, HEIGHT, WIDTH};
-use draws::{clear_backgorund, draw_grid, draw_player_o, draw_player_x, draw_winning_line};
+use draws::{clear_background, draw_grid, draw_player_o, draw_player_x, draw_winning_line};
+use rand::seq::IteratorRandom;
 
 #[cfg(target_os = "windows")]
 static ICO_FILE: &[u8] = include_bytes!("../assets/app.ico");
@@ -104,6 +105,14 @@ impl Game {
     }
 }
 
+fn get_next_move(game: &Game) -> Option<(usize, usize)> {
+    let mut rng = rand::rng();
+    (0..3)
+        .flat_map(|y| (0..3).map(move |x| (x, y)))
+        .filter(|&(x, y)| game.board[y][x] == Cell::Empty)
+        .choose(&mut rng)
+}
+
 fn main() {
     let mut window = Window::new("Vanishing Tris", WIDTH, HEIGHT, WindowOptions::default())
         .unwrap_or_else(|e| {
@@ -120,8 +129,13 @@ fn main() {
     }
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
-
-        if window.get_mouse_down(MouseButton::Left) {
+        if game.current_player == Player::O && !game.is_over() {
+            std::thread::sleep(std::time::Duration::from_millis(100));
+            if let Some((x, y)) = get_next_move(&game) {
+                game.make_move(x, y);
+                game.check_winner();
+            }
+        } else if window.get_mouse_down(MouseButton::Left) {
             if let Some((mouse_x, mouse_y)) = window.get_mouse_pos(MouseMode::Clamp) {
                 let x = (mouse_x as usize) / CELL_SIZE;
                 let y = (mouse_y as usize) / CELL_SIZE;
@@ -138,7 +152,7 @@ fn main() {
         }
 
         // Clear the draw target
-        clear_backgorund(&mut draw_target);
+        clear_background(&mut draw_target);
 
         // Draw grid
         draw_grid(&mut draw_target);

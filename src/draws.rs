@@ -1,7 +1,7 @@
 use raqote::{DrawTarget, PathBuilder, Source};
 
 use crate::consts::{
-    CELL_PADDING, CELL_SIZE, COLOR_GRAY, COLOR_GREEN, COLOR_ORANGE, COLOR_RED, COLOR_WHITE,
+    CELL_PADDING, CELL_SIZE, COLOR_GRAY, COLOR_BLUE, COLOR_ORANGE, COLOR_RED, COLOR_WHITE,
     DRAW_OPTIONS, HEIGHT, LINE_STROKE_STYLE, SYMBOL_STROKE_STYLE, WIDTH,
 };
 
@@ -91,23 +91,23 @@ pub fn draw_player_o(draw_target: &mut DrawTarget, x: usize, y: usize) {
 }
 
 pub fn draw_winning_line(draw_target: &mut DrawTarget, line: &[(usize, usize); 3]) {
-    let start_x = (line[0].0 * CELL_SIZE + CELL_SIZE / 2) as f32;
-    let start_y = (line[0].1 * CELL_SIZE + CELL_SIZE / 2) as f32;
-    let end_x = (line[2].0 * CELL_SIZE + CELL_SIZE / 2) as f32;
-    let end_y = (line[2].1 * CELL_SIZE + CELL_SIZE / 2) as f32;
+    let start_x = (line[0].0 * CELL_SIZE + CELL_SIZE / 2 + CELL_PADDING) as f32;
+    let start_y = (line[0].1 * CELL_SIZE + CELL_SIZE / 2 + CELL_PADDING) as f32;
+    let end_x = (line[2].0 * CELL_SIZE + CELL_SIZE / 2 + CELL_PADDING) as f32;
+    let end_y = (line[2].1 * CELL_SIZE + CELL_SIZE / 2 + CELL_PADDING) as f32;
 
     let mut pb = PathBuilder::new();
-    pb.move_to(start_x + CELL_PADDING as f32, start_y + CELL_PADDING as f32);
-    pb.line_to(end_x + CELL_PADDING as f32, end_y + CELL_PADDING as f32);
+    pb.move_to(start_x, start_y);
+    pb.line_to(end_x, end_y);
     let path = pb.finish();
     draw_target.stroke(
         &path,
-        &Source::Solid(COLOR_GREEN),
+        &Source::Solid(COLOR_BLUE),
         &LINE_STROKE_STYLE,
         &DRAW_OPTIONS,
     );
 }
 
-pub fn clear_backgorund(draw_target: &mut DrawTarget) {
+pub fn clear_background(draw_target: &mut DrawTarget) {
     draw_target.clear(COLOR_WHITE);
 }

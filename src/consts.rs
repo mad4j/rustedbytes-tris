@@ -36,10 +36,10 @@ pub const COLOR_WHITE: SolidSource = SolidSource {
     a: 0xFF,
 };
 
-pub const COLOR_GREEN: SolidSource = SolidSource {
-    r: 0xE5,
-    g: 0xE8,
-    b: 0xB6,
+pub const COLOR_BLUE: SolidSource = SolidSource {
+    r: 0x23,
+    g: 0x64,
+    b: 0xAA,
     a: 0xFF,
 };
 
