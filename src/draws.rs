@@ -6,8 +6,7 @@
 use raqote::{DrawTarget, PathBuilder, Source};
 
 use crate::consts::{
-    CELL_PADDING, CELL_SIZE, COLOR_BLUE, COLOR_GRAY, COLOR_ORANGE, COLOR_RED, COLOR_WHITE,
-    DRAW_OPTIONS, HEIGHT, LINE_STROKE_STYLE, SYMBOL_STROKE_STYLE, WIDTH,
+    CELL_PADDING, CELL_SIZE, COLOR_BLUE, COLOR_GRAY, COLOR_ORANGE, COLOR_RED, COLOR_WHITE, DRAW_OPTIONS, GRID_LINE_STROKE_STYLE, HEIGHT, SYMBOL_STROKE_STYLE, WIDTH, WIN_LINE_STROKE_STYLE
 };
 
 
@@ -27,7 +26,7 @@ pub fn draw_grid(draw_target: &mut DrawTarget) {
         draw_target.stroke(
             &path,
             &Source::Solid(COLOR_GRAY),
-            &LINE_STROKE_STYLE,
+            &GRID_LINE_STROKE_STYLE,
             &DRAW_OPTIONS,
         );
 
@@ -39,7 +38,7 @@ pub fn draw_grid(draw_target: &mut DrawTarget) {
         draw_target.stroke(
             &path,
             &Source::Solid(COLOR_GRAY),
-            &LINE_STROKE_STYLE,
+            &GRID_LINE_STROKE_STYLE,
             &DRAW_OPTIONS,
         );
     }
@@ -52,7 +51,7 @@ pub fn draw_player_x(draw_target: &mut DrawTarget, x: usize, y: usize) {
     let start_x = (CELL_PADDING + x * CELL_SIZE) as f32;
     let start_y = (CELL_PADDING + y * CELL_SIZE) as f32;
     let offset = 0.2 * CELL_SIZE as f32;
-    
+
     // Draw X
     let mut pb = PathBuilder::new();
     pb.move_to(start_x + offset, start_y + offset);
@@ -122,7 +121,7 @@ pub fn draw_winning_line(draw_target: &mut DrawTarget, line: &[(usize, usize); 3
     draw_target.stroke(
         &path,
         &Source::Solid(COLOR_BLUE),
-        &LINE_STROKE_STYLE,
+        &WIN_LINE_STROKE_STYLE,
         &DRAW_OPTIONS,
     );
 }

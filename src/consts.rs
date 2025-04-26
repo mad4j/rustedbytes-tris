@@ -23,8 +23,19 @@ pub const HEIGHT: usize = 3 * CELL_SIZE + 2 * CELL_PADDING;
 
 
 /// The stroke style for the lines drawn on the game board.
-pub const LINE_STROKE_STYLE: StrokeStyle = StrokeStyle {
+pub const GRID_LINE_STROKE_STYLE: StrokeStyle = StrokeStyle {
     width: CELL_SIZE as f32 / 20.0,
+    cap: LineCap::Round,
+    join: LineJoin::Round,
+    miter_limit: 10.0,
+    dash_array: vec![],
+    dash_offset: 0.0,
+};
+
+
+/// The stroke style for the lines drawn on the game board.
+pub const WIN_LINE_STROKE_STYLE: StrokeStyle = StrokeStyle {
+    width: CELL_SIZE as f32 / 10.0,
     cap: LineCap::Round,
     join: LineJoin::Round,
     miter_limit: 10.0,
