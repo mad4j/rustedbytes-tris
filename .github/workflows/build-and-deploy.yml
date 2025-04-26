@@ -1,0 +1,35 @@
+name: Windows Build and Commit Binary
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build project in release mode
+        run: cargo build --release
+
+      - name: Create releases directory
+        run: mkdir releases
+
+      - name: Copy binary to releases/
+        run: copy target\release\rustedbytes-tris.exe releases\rustedbytes-tris.exe
+
+      - name: Commit and push binary
+        run: |
+          git add releases/rustedbytes-tris.exe
+          git commit -m "Add Windows release binary"
+          git push
