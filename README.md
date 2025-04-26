@@ -67,7 +67,7 @@ Further lessons can evolve the AI with smarter behavior, as described in the `ai
 
 ### Project Repository
 
-Project repository is available on GitHub at the following link: <https:/>/github.com/mad4j/rustedbytes-tris>
+Project repository is available on GitHub at the following link: https://github.com/mad4j/rustedbytes-tris
 
 ### Cargo install
 
