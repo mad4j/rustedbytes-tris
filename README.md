@@ -1,6 +1,6 @@
 # Teaching with Rust: Building Strong Foundations for Real-World Developers
 
-![alt text](assets/cover.png)
+![alt text](resources/cover.png)
 
 ## Rust vs. Python
 
@@ -12,7 +12,7 @@ Unlike Python’s high-level abstraction, Rust prepares students for real-world 
 
 In this article we will implementing **Vanishing Tic-Tac-Toe** using Rust. **Vanishing Tic-Tac-Toe** is a twist on the classic Tic-Tac-Toe game, with an added challenge: each player can only have three symbols on the board at any time. The game starts just like the traditional version, with players taking turns placing their symbols (X or O) on a 3x3 grid. However, once a player has placed their third symbol, every new move they make causes their oldest symbol to vanish from the board. This adds a strategic twist, as players must win with shifting pieces and constantly evolving board positions.
 
-![Vanishing Tic-Tac-Toe Gameplay](assets/screenshot.png)
+![Vanishing Tic-Tac-Toe Gameplay](resources/screenshot.png)
 
 ### Project Dependencies
 
