@@ -1,4 +1,4 @@
-# Teaching with Rust: Building Strong Foundations for Real-World Programming
+# Teaching with Rust: Building Strong Foundations for Real-World Developers
 
 ## Rust vs. Python
 
